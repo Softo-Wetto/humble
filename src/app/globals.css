@@ -218,6 +218,35 @@ button, input, textarea, select { font: inherit; }
 .kind-empty.small { margin: 30px auto; padding: 35px; }
 .kind-empty.small h2 { font-size: 32px; }
 
+.match-list { max-width: 850px; margin: 45px auto; display: grid; gap: 10px; }
+.match-list > a { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border: 1px solid var(--line); border-radius: 17px; background: var(--paper); transition: transform .15s,border-color .15s; }
+.match-list > a:hover { transform: translateY(-2px); border-color: rgba(167,114,88,.4); }
+.match-list > a > div { display: flex; align-items: center; gap: 14px; }
+.match-avatar { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: var(--oat); color: var(--clay-dark); font-family: var(--font-display),serif; font-size: 22px; }
+.match-list h2 { margin: 0; font-family: var(--font-display),serif; font-size: 24px; }
+.match-list p { margin: 2px 0 0; color: var(--muted); font-size: 9px; }
+.match-status { padding: 6px 9px; border-radius: 999px; background: #e9eee6; color: #61705d; font-size: 8px; text-transform: capitalize; }
+.match-status.unmatched,.match-status.blocked,.match-status.admin_closed { background: var(--oat); color: var(--muted); }
+.conversation { max-width: 880px; min-height: calc(100vh - 110px); margin: auto; display: grid; grid-template-rows: auto 1fr auto; border: 1px solid var(--line); border-radius: 23px; background: var(--paper); overflow: hidden; }
+.conversation > header { display: flex; justify-content: space-between; align-items: center; padding: 22px 25px; border-bottom: 1px solid var(--line); }
+.conversation header .eyebrow { margin-bottom: 3px; }
+.conversation header h1 { margin: 0; font-family: var(--font-display),serif; font-size: 32px; }
+.conversation header > span { padding: 6px 9px; border-radius: 999px; background: #e9eee6; color: #61705d; font-size: 8px; }
+.conversation header > span.reconnecting { background: var(--oat); color: var(--clay-dark); }
+.message-list { min-height: 450px; max-height: calc(100vh - 300px); overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 28px; }
+.message-list article { max-width: 72%; }
+.message-list article p { margin: 0; padding: 12px 15px; border-radius: 16px; font-size: 12px; line-height: 1.55; }
+.message-list article span { display: block; margin: 4px 6px 0; color: var(--muted); font-size: 7px; }
+.message-list article.mine { align-self: flex-end; text-align: right; }
+.message-list article.mine p { border-bottom-right-radius: 5px; background: var(--cocoa); color: #fff; text-align: left; }
+.message-list article.theirs { align-self: flex-start; }
+.message-list article.theirs p { border-bottom-left-radius: 5px; background: var(--oat); }
+.typing-indicator { margin: 0; color: var(--muted); font-family: var(--font-display),serif; font-size: 14px; font-style: italic; }
+.message-form { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 16px; border-top: 1px solid var(--line); }
+.message-form textarea { border: 1px solid var(--line); border-radius: 15px; background: var(--parchment); padding: 12px 14px; color: var(--cocoa); outline: none; resize: none; }
+.message-form textarea:focus { border-color: var(--clay); }
+.message-form .button { width: 50px; min-height: 50px; padding: 0; border: 0; cursor: pointer; }
+
 @keyframes float-note { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(-1deg); } }
 @media (max-width: 900px) {
   .header-nav > a:not(.button) { display: none; }
@@ -286,6 +315,9 @@ button, input, textarea, select { font: inherit; }
   .compliment-composer h2 { font-size: 40px; }
   .compliment-list article > div { align-items: flex-start; flex-direction: column; }
   .sent-list article { grid-template-columns: 1fr; }
+  .conversation { min-height: calc(100vh - 145px); border-radius: 17px; }
+  .message-list { max-height: calc(100vh - 310px); padding: 18px 13px; }
+  .message-list article { max-width: 84%; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
