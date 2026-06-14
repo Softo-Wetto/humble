@@ -1,0 +1,45 @@
+{
+  "name": "humble",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "local:setup": "node scripts/local-setup.mjs",
+    "pb:start": "node scripts/start-pocketbase.mjs",
+    "pb:setup": "node scripts/setup-pocketbase.mjs",
+    "pb:seed": "node scripts/seed-pocketbase.mjs",
+    "pb:check": "node scripts/check-pocketbase.mjs",
+    "dev:all": "concurrently -k -n pocketbase,next -c green,cyan \"npm:pb:start\" \"npm:dev\""
+  },
+  "dependencies": {
+    "lucide-react": "^0.577.0",
+    "next": "^16.2.6",
+    "pocketbase": "^0.26.8",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.2.6",
+    "jsdom": "^27.2.0",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^4.0.13"
+  }
+}
