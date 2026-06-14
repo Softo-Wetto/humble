@@ -1,0 +1,3 @@
+import Link from "next/link";
+import { AuthForm } from "@/features/auth/AuthForm";
+export default function SignupPage() { return <main className="auth-page"><Link className="wordmark auth-wordmark" href="/">humble<span>.</span></Link><section className="auth-card"><p className="eyebrow">Begin with intention</p><h1>A profile that feels like a person, not a pitch.</h1><p className="auth-intro">Create your private account, then take your time shaping what others will see.</p><AuthForm mode="signup" /></section><aside className="auth-aside"><blockquote>“Say what you noticed. Let connection begin there.”</blockquote><p>Your birth date and preferences stay private. Only your age is shown publicly.</p></aside></main>; }

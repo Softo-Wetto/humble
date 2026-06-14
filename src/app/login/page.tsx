@@ -1,0 +1,3 @@
+import Link from "next/link";
+import { AuthForm } from "@/features/auth/AuthForm";
+export default function LoginPage() { return <main className="auth-page"><Link className="wordmark auth-wordmark" href="/">humble<span>.</span></Link><section className="auth-card"><p className="eyebrow">Welcome back</p><h1>Come back to connection at your own pace.</h1><p className="auth-intro">Log in to see your compliments, matches, and conversations.</p><AuthForm mode="login" /></section><aside className="auth-aside"><blockquote>“A thoughtful beginning changes the whole conversation.”</blockquote><p>No pressure. No performance. Just room to notice someone.</p></aside></main>; }
