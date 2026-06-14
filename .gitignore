@@ -1,0 +1,9 @@
+.worktrees/
+.next/
+node_modules/
+.env*
+!.env.example
+.pocketbase/
+test-results/
+playwright-report/
+coverage/
