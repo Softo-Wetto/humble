@@ -1,0 +1,8 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { requireOnboardedUser } from "@/lib/auth/guards";
+import { createAdminRecord, escapeFilter, findAdminRecord } from "@/lib/pocketbase/records";
+import type { PocketBaseRecord } from "@/lib/pocketbase/types";
+import { buildEvidenceSnapshot } from "@/lib/services/safety";
+const schema=z.object({targetUserId:z.string().min(1),targetType:z.enum(["user","compliment","message"]),targetRecordId:z.string().optional(),category:z.enum(["harassment","hate_or_discrimination","sexual_content","impersonation","scam","underage_concern","safety_concern","other"]),detail:z.string().max(2000).default("")});
+export async function POST(request:Request){const user=await requireOnboardedUser();const parsed=schema.safeParse(await request.json().catch(()=>null));if(!parsed.success||parsed.data.targetUserId===user.id)return NextResponse.json({message:"Invalid report."},{status:400});let evidence:Record<string,unknown>={targetUser:parsed.data.targetUserId};if(parsed.data.targetRecordId&&parsed.data.targetType!=="user"){const record=await findAdminRecord<PocketBaseRecord>(parsed.data.targetType==="message"?"messages":"compliments",`id="${escapeFilter(parsed.data.targetRecordId)}"`);if(record)evidence=buildEvidenceSnapshot(record);}await createAdminRecord("reports",JSON.stringify({reporter:user.id,target_user:parsed.data.targetUserId,target_type:parsed.data.targetType,target_record:parsed.data.targetRecordId||"",category:parsed.data.category,detail:parsed.data.detail,evidence_snapshot:evidence,status:"open"}));return NextResponse.json({ok:true},{status:201});}

@@ -247,6 +247,17 @@ button, input, textarea, select { font: inherit; }
 .message-form textarea:focus { border-color: var(--clay); }
 .message-form .button { width: 50px; min-height: 50px; padding: 0; border: 0; cursor: pointer; }
 
+.safety-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+.safety-actions button { display: flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--muted); font-size: 9px; cursor: pointer; }
+.safety-actions button:hover { color: #8a493a; }
+.app-main > .safety-actions { max-width: 880px; margin: 0 auto 10px; justify-content: flex-end; }
+.settings-panel { max-width: 850px; margin: 18px auto; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+.settings-panel h2 { margin: 0 0 8px; font-family: var(--font-display),serif; font-size: 28px; }
+.settings-panel p,.settings-panel li { color: var(--muted); font-size: 11px; }
+.settings-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.settings-actions button { padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--parchment); color: var(--cocoa); font-size: 9px; cursor: pointer; }
+.settings-actions button.danger { color: #8a493a; border-color: rgba(138,73,58,.25); }
+
 @keyframes float-note { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(-1deg); } }
 @media (max-width: 900px) {
   .header-nav > a:not(.button) { display: none; }
