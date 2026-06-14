@@ -1,0 +1,7 @@
+import { notFound } from "next/navigation";
+import { escapeFilter, findAdminRecord, listAdminRecords } from "@/lib/pocketbase/records";
+import type { AuthRecord } from "@/lib/pocketbase/types";
+import type { ProfileRecord } from "@/lib/repositories/profiles";
+import type { ModerationActionRecord } from "@/lib/repositories/moderation";
+import { ModerationActionForm } from "@/features/admin/ModerationActionForm";
+export default async function AdminUserPage({params}:{params:Promise<{id:string}>}){const{id}=await params;const[user,profile,actions]=await Promise.all([findAdminRecord<AuthRecord>("users",`id="${escapeFilter(id)}"`),findAdminRecord<ProfileRecord>("profiles",`user="${escapeFilter(id)}"`),listAdminRecords<ModerationActionRecord>("moderation_actions",new URLSearchParams({page:"1",perPage:"100",sort:"-created",filter:`target_user="${id}"`}))]);if(!user)notFound();return <><div className="admin-heading"><p className="eyebrow">User review</p><h1>{profile?.display_name||user.email}</h1><p>{user.account_state} · born {user.birth_date}</p></div><div className="admin-user-grid"><section><h2>Take action</h2><ModerationActionForm userId={id}/></section><section><h2>Audit history</h2>{actions.items.map((action)=><article className="audit-item" key={action.id}><strong>{action.action}</strong><p>{action.reason}</p><span>{new Date(action.created).toLocaleString()}</span></article>)}</section></div></>;}

@@ -1,0 +1,4 @@
+import { listAdminRecords } from "@/lib/pocketbase/records";
+import type { ReportRecord } from "@/lib/repositories/moderation";
+import type { AuthRecord } from "@/lib/pocketbase/types";
+export default async function AdminPage(){const[reports,users]=await Promise.all([listAdminRecords<ReportRecord>("reports",new URLSearchParams({page:"1",perPage:"1",filter:'status="open"'})),listAdminRecords<AuthRecord>("users",new URLSearchParams({page:"1",perPage:"1",filter:'account_state="suspended"'}))]);return <><div className="admin-heading"><p className="eyebrow">Moderation overview</p><h1>Care needs clear, accountable tools.</h1></div><div className="admin-stats"><article><strong>{reports.totalItems}</strong><span>Open reports</span></article><article><strong>{users.totalItems}</strong><span>Suspended accounts</span></article></div></>;}

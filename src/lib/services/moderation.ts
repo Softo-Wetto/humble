@@ -1,0 +1,2 @@
+export function canModerate(role: "member" | "admin") { return role === "admin"; }
+export function buildModerationAudit(input: { administratorId:string; targetUserId:string; action:string; reason:string; targetType?:string; targetRecord?:string; beforeState:Record<string,unknown>; afterState:Record<string,unknown> }) { return { administrator:input.administratorId,target_user:input.targetUserId,action:input.action,target_type:input.targetType||"user",target_record:input.targetRecord||"",reason:input.reason,before_state:input.beforeState,after_state:input.afterState }; }

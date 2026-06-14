@@ -1,0 +1,4 @@
+"use client";
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+export function ReportDecisionForm({reportId}:{reportId:string}){const router=useRouter();const[pending,setPending]=useState(false);async function submit(event:FormEvent<HTMLFormElement>){event.preventDefault();setPending(true);const form=new FormData(event.currentTarget);await fetch(`/api/admin/reports/${reportId}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.fromEntries(form.entries()))});setPending(false);router.refresh();}return <form className="report-decision" onSubmit={submit}><select name="status"><option value="resolved">Resolve</option><option value="dismissed">Dismiss</option><option value="reviewing">Keep reviewing</option></select><input name="resolution" placeholder="Private resolution note" required/><button disabled={pending}>Save</button></form>;}

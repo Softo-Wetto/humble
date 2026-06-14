@@ -1,0 +1,6 @@
+import Link from "next/link";
+import { listAdminRecords } from "@/lib/pocketbase/records";
+import type { ReportRecord } from "@/lib/repositories/moderation";
+import type { ProfileRecord } from "@/lib/repositories/profiles";
+import { ReportDecisionForm } from "@/features/admin/ReportDecisionForm";
+export default async function ReportsPage(){const[reports,profiles]=await Promise.all([listAdminRecords<ReportRecord>("reports",new URLSearchParams({page:"1",perPage:"100",sort:"-created"})),listAdminRecords<ProfileRecord>("profiles",new URLSearchParams({page:"1",perPage:"200"}))]);const byUser=new Map(profiles.items.map((profile)=>[profile.user,profile]));return <><div className="admin-heading"><p className="eyebrow">Report queue</p><h1>Review context before taking action.</h1></div><div className="report-queue">{reports.items.map((report)=><article key={report.id}><header><div><span>{report.category.replaceAll("_"," ")}</span><h2>{byUser.get(report.target_user)?.display_name||"Member"}</h2></div><strong>{report.status}</strong></header><p>{report.detail||"No additional detail supplied."}</p><pre>{JSON.stringify(report.evidence_snapshot,null,2)}</pre><div className="report-footer"><Link href={`/admin/users/${report.target_user}`}>Review user</Link><ReportDecisionForm reportId={report.id}/></div></article>)}</div></>;}

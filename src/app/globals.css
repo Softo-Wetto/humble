@@ -258,6 +258,40 @@ button, input, textarea, select { font: inherit; }
 .settings-actions button { padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--parchment); color: var(--cocoa); font-size: 9px; cursor: pointer; }
 .settings-actions button.danger { color: #8a493a; border-color: rgba(138,73,58,.25); }
 
+.admin-frame { min-height: 100vh; background: #f4f1ec; }
+.admin-frame > header { min-height: 78px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--line); background: var(--paper); }
+.admin-frame .wordmark small { margin-left: 6px; color: var(--muted); font-family: var(--font-body),sans-serif; font-size: 8px; letter-spacing: .1em; text-transform: uppercase; }
+.admin-frame > header nav { display: flex; gap: 24px; font-size: 10px; font-weight: 700; }
+.admin-frame > main { max-width: 1180px; margin: auto; padding: 65px 30px 100px; }
+.admin-heading h1 { max-width: 800px; margin: 0; font-family: var(--font-display),serif; font-size: 64px; font-weight: 600; letter-spacing: -.05em; line-height: .95; }
+.admin-heading > p:last-child { color: var(--muted); }
+.admin-stats { display: grid; grid-template-columns: repeat(2,minmax(0,260px)); gap: 14px; margin-top: 40px; }
+.admin-stats article { padding: 28px; border: 1px solid var(--line); border-radius: 17px; background: var(--paper); }
+.admin-stats strong { display: block; font-family: var(--font-display),serif; font-size: 48px; }
+.admin-stats span { color: var(--muted); font-size: 10px; }
+.report-queue { display: grid; gap: 14px; margin-top: 40px; }
+.report-queue > article { padding: 27px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+.report-queue article > header { display: flex; justify-content: space-between; }
+.report-queue header span,.report-queue header strong { color: var(--clay-dark); font-size: 8px; text-transform: uppercase; }
+.report-queue h2 { margin: 4px 0; font-family: var(--font-display),serif; font-size: 30px; }
+.report-queue > article > p { color: var(--muted); font-size: 11px; }
+.report-queue pre { max-height: 220px; overflow: auto; padding: 14px; border-radius: 10px; background: #2e2925; color: #eee7de; font-size: 9px; white-space: pre-wrap; }
+.report-footer { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 15px; }
+.report-footer > a { color: var(--clay-dark); font-size: 10px; font-weight: 800; }
+.report-decision { display: flex; gap: 7px; }
+.report-decision select,.report-decision input,.report-decision button,.moderation-form select,.moderation-form input,.moderation-form textarea { border: 1px solid var(--line); border-radius: 8px; background: var(--parchment); padding: 8px; color: var(--cocoa); font-size: 9px; }
+.report-decision button { cursor: pointer; }
+.admin-user-grid { display: grid; grid-template-columns: minmax(300px,.8fr) 1.2fr; gap: 20px; margin-top: 40px; }
+.admin-user-grid > section { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+.admin-user-grid h2 { margin-top: 0; font-family: var(--font-display),serif; font-size: 28px; }
+.moderation-form { display: grid; gap: 13px; }
+.moderation-form label { display: grid; gap: 6px; font-size: 9px; font-weight: 800; }
+.moderation-form .button { border: 0; cursor: pointer; }
+.audit-item { padding: 13px 0; border-top: 1px solid var(--line); }
+.audit-item strong { font-size: 10px; text-transform: capitalize; }
+.audit-item p { margin: 5px 0; color: var(--muted); font-size: 10px; }
+.audit-item span { color: var(--muted); font-size: 8px; }
+
 @keyframes float-note { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(-1deg); } }
 @media (max-width: 900px) {
   .header-nav > a:not(.button) { display: none; }
@@ -329,6 +363,11 @@ button, input, textarea, select { font: inherit; }
   .conversation { min-height: calc(100vh - 145px); border-radius: 17px; }
   .message-list { max-height: calc(100vh - 310px); padding: 18px 13px; }
   .message-list article { max-width: 84%; }
+  .admin-frame > header { padding: 0 18px; }
+  .admin-frame > header nav { gap: 10px; }
+  .admin-heading h1 { font-size: 48px; }
+  .admin-user-grid { grid-template-columns: 1fr; }
+  .report-footer,.report-decision { align-items: stretch; flex-direction: column; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
