@@ -179,6 +179,10 @@ Discovery uses a card-based grid or single-column mobile list. It never uses swi
 
 Each card shows enough information to invite attention without reducing a person to a photo. Opening a card displays the full profile, values, interests, and compliment action.
 
+Navigation is explicit. Desktop users browse a profile-card grid. Mobile users can move through focused profiles with labelled Previous and Next profile controls. Sending a compliment is the positive expression of interest and the recipient's acceptance creates the match.
+
+Users can choose `Not for me` to privately hide a profile from their current discovery results. This does not notify or penalize the other person. Hidden discovery profiles are stored separately from blocks, can be reviewed in settings, and can be restored individually or reset in bulk.
+
 Discovery filters include compatible identity preference, preferred age range, and optional city or region. Profiles are excluded when they are:
 
 - The current user.
@@ -186,6 +190,7 @@ Discovery filters include compatible identity preference, preferred age range, a
 - Suspended, paused, deactivated, or pending deletion.
 - Incomplete or missing a photo.
 - Outside mutual dating preferences.
+- Privately hidden from discovery by the current user.
 
 Pagination is explicit or progressively loaded without infinite-scroll pressure cues. Empty states explain how preferences affect results without encouraging users to loosen boundaries.
 
@@ -285,6 +290,10 @@ Contains reporter, target type and references, category, detail, evidence snapsh
 
 Contains blocker, blocked user, optional reason, and timestamp. A unique index prevents duplicate block pairs.
 
+### `discovery_hides`
+
+Contains the viewer and privately hidden profile owner. A unique index prevents duplicate pairs. Records are visible only to the viewer and admins, have no effect on the hidden person's account, and can be deleted to restore discovery visibility.
+
 ### `moderation_actions`
 
 Contains administrator, action, target references, reason, before/after snapshots, and timestamp. Only admins can list or create records.
@@ -306,6 +315,7 @@ Rules must enforce these invariants:
 - Matches and messages are visible only to participants and admins.
 - Only active match participants can create messages or typing state.
 - Block records are visible only to the blocker and admins.
+- Discovery-hide records are visible and mutable only by the viewer and admins.
 - Reports are visible to their reporter and admins, with restricted administrative fields omitted from reporter-facing reads.
 - Moderation actions are admin-only.
 
@@ -339,6 +349,7 @@ Automated tests cover:
 - Profile completion and discovery eligibility.
 - Mutual preference filtering.
 - Block exclusions in both directions.
+- Hiding and restoring discovery profiles without creating blocks.
 - Compliment state transitions.
 - Atomic compliment acceptance and duplicate-match prevention.
 - Match membership and message authorization.
