@@ -10,7 +10,8 @@
     "postcss": "8.5.15"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently -k -n pocketbase,next -c green,cyan \"npm:pb:start\" \"npm:dev:web\"",
+    "dev:web": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -24,7 +25,7 @@
     "pb:setup": "node scripts/setup-pocketbase.mjs",
     "pb:seed": "node scripts/seed-pocketbase.mjs",
     "pb:check": "node scripts/check-pocketbase.mjs",
-    "dev:all": "concurrently -k -n pocketbase,next -c green,cyan \"npm:pb:start\" \"npm:dev\"",
+    "dev:all": "npm run dev",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",

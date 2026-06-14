@@ -19,7 +19,7 @@ Use Node.js 22.12+ LTS or Node.js 24+. Node.js 23 is not supported by the curren
 npm install
 npm run local:setup
 npm run test:e2e:install
-npm run dev:all
+npm run dev
 ```
 
 Open `http://localhost:3000`. The local PocketBase API and dashboard run at `http://127.0.0.1:8090` and `http://127.0.0.1:8090/_/`.
@@ -56,9 +56,10 @@ PocketBase superuser credentials are defined in `.env.local` and are intended on
 ## Useful Commands
 
 ```powershell
-npm run dev          # Next.js only
+npm run dev          # PocketBase and Next.js together
+npm run dev:web      # Next.js only
 npm run pb:start     # PocketBase only
-npm run dev:all      # Both local services
+npm run dev:all      # Compatibility alias for npm run dev
 npm run local:setup  # Install/update schema and seed data
 npm run pb:check     # Verify a running PocketBase instance
 npm run lint
