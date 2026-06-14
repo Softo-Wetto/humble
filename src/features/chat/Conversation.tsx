@@ -1,14 +1,136 @@
 "use client";
+
 import PocketBase from "pocketbase";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Send } from "lucide-react";
 import type { MessageRecord } from "@/lib/repositories/messages";
 
-export function Conversation({ matchId, currentUserId, otherName, initialMessages }: { matchId:string; currentUserId:string; otherName:string; initialMessages:MessageRecord[] }) {
-  const [messages,setMessages]=useState(initialMessages);const[body,setBody]=useState("");const[typing,setTyping]=useState(false);const[connected,setConnected]=useState(true);const lastTyping=useRef(0);
-  async function refresh(){const response=await fetch(`/api/matches/${matchId}/messages`);if(response.ok){const data=await response.json();setMessages(data.messages);setTyping(data.typing);}}
-  useEffect(()=>{let active=true;let pb:PocketBase|undefined;fetch("/api/auth/realtime").then((response)=>response.json()).then(async(data)=>{if(!active)return;pb=new PocketBase(data.url);pb.authStore.save(data.token);await pb.collection("messages").subscribe("*",(event)=>{const message=event.record as unknown as MessageRecord;if(message.match!==matchId)return;setMessages((items)=>event.action==="delete"?items.filter((item)=>item.id!==message.id):[...items.filter((item)=>item.id!==message.id),message].sort((a,b)=>a.created.localeCompare(b.created)));},{filter:`match="${matchId}"`});setConnected(true);}).catch(()=>setConnected(false));const timer=setInterval(refresh,5000);fetch(`/api/matches/${matchId}/read`,{method:"POST"});return()=>{active=false;clearInterval(timer);pb?.collection("messages").unsubscribe("*");};},[matchId]);
-  async function submit(event:FormEvent){event.preventDefault();const text=body.trim();if(!text)return;setBody("");const response=await fetch(`/api/matches/${matchId}/messages`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({body:text})});if(!response.ok)setBody(text);else refresh();}
-  function changed(value:string){setBody(value);if(Date.now()-lastTyping.current>2500){lastTyping.current=Date.now();fetch(`/api/matches/${matchId}/typing`,{method:"POST"});}}
-  return <div className="conversation"><header><div><p className="eyebrow">Matched conversation</p><h1>{otherName}</h1></div><span className={connected?"live":"reconnecting"}>{connected?"Live":"Refreshing"}</span></header><div className="message-list">{messages.map((message)=><article className={message.sender===currentUserId?"mine":"theirs"} key={message.id}><p>{message.body}</p><span>{new Date(message.created).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})}{message.sender===currentUserId&&message.read_at?" · Read":""}</span></article>)}{typing&&<p className="typing-indicator">{otherName} is typing...</p>}</div><form className="message-form" onSubmit={submit}><textarea aria-label={`Message ${otherName}`} value={body} onChange={(event)=>changed(event.target.value)} rows={2} maxLength={2000} placeholder="Write something genuine..."/><button className="button" aria-label="Send message"><Send size={17}/></button></form></div>;
+type ConversationProps = {
+  matchId: string;
+  currentUserId: string;
+  otherName: string;
+  initialMessages: MessageRecord[];
+};
+
+export function Conversation({
+  matchId,
+  currentUserId,
+  otherName,
+  initialMessages,
+}: ConversationProps) {
+  const [messages, setMessages] = useState(initialMessages);
+  const [body, setBody] = useState("");
+  const [typing, setTyping] = useState(false);
+  const [connected, setConnected] = useState(true);
+  const lastTyping = useRef(0);
+
+  const refresh = useCallback(async () => {
+    const response = await fetch(`/api/matches/${matchId}/messages`);
+    if (!response.ok) return;
+    const data = await response.json();
+    setMessages(data.messages);
+    setTyping(data.typing);
+  }, [matchId]);
+
+  useEffect(() => {
+    let active = true;
+    let pocketBase: PocketBase | undefined;
+
+    fetch("/api/auth/realtime")
+      .then((response) => response.json())
+      .then(async (data) => {
+        if (!active) return;
+        pocketBase = new PocketBase(data.url);
+        pocketBase.authStore.save(data.token);
+        await pocketBase.collection("messages").subscribe(
+          "*",
+          (event) => {
+            const message = event.record as unknown as MessageRecord;
+            if (message.match !== matchId) return;
+            setMessages((items) =>
+              event.action === "delete"
+                ? items.filter((item) => item.id !== message.id)
+                : [...items.filter((item) => item.id !== message.id), message].sort((a, b) =>
+                    a.created.localeCompare(b.created),
+                  ),
+            );
+          },
+          { filter: `match="${matchId}"` },
+        );
+        setConnected(true);
+      })
+      .catch(() => setConnected(false));
+
+    const timer = setInterval(refresh, 5000);
+    fetch(`/api/matches/${matchId}/read`, { method: "POST" });
+
+    return () => {
+      active = false;
+      clearInterval(timer);
+      pocketBase?.collection("messages").unsubscribe("*");
+    };
+  }, [matchId, refresh]);
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    const text = body.trim();
+    if (!text) return;
+    setBody("");
+    const response = await fetch(`/api/matches/${matchId}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ body: text }),
+    });
+    if (!response.ok) setBody(text);
+    else await refresh();
+  }
+
+  function changed(value: string) {
+    setBody(value);
+    if (Date.now() - lastTyping.current <= 2500) return;
+    lastTyping.current = Date.now();
+    fetch(`/api/matches/${matchId}/typing`, { method: "POST" });
+  }
+
+  return (
+    <div className="conversation">
+      <header>
+        <div>
+          <p className="eyebrow">Matched conversation</p>
+          <h1>{otherName}</h1>
+        </div>
+        <span className={connected ? "live" : "reconnecting"}>
+          {connected ? "Live" : "Refreshing"}
+        </span>
+      </header>
+      <div className="message-list">
+        {messages.map((message) => (
+          <article className={message.sender === currentUserId ? "mine" : "theirs"} key={message.id}>
+            <p>{message.body}</p>
+            <span>
+              {new Date(message.created).toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit",
+              })}
+              {message.sender === currentUserId && message.read_at ? " | Read" : ""}
+            </span>
+          </article>
+        ))}
+        {typing && <p className="typing-indicator">{otherName} is typing...</p>}
+      </div>
+      <form className="message-form" onSubmit={submit}>
+        <textarea
+          aria-label={`Message ${otherName}`}
+          value={body}
+          onChange={(event) => changed(event.target.value)}
+          rows={2}
+          maxLength={2000}
+          placeholder="Write something genuine..."
+        />
+        <button className="button" aria-label="Send message">
+          <Send size={17} />
+        </button>
+      </form>
+    </div>
+  );
 }

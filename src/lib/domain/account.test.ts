@@ -17,4 +17,8 @@ describe("adult eligibility", () => {
   it("handles a birthday that has already occurred this year", () => {
     expect(calculateAge("2000-06-13", today)).toBe(26);
   });
+
+  it("accepts the timestamp format returned by PocketBase date fields", () => {
+    expect(calculateAge("2008-06-14 00:00:00.000Z", today)).toBe(18);
+  });
 });

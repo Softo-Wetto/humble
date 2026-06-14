@@ -1,4 +1,4 @@
-import { chmodSync, existsSync, mkdirSync, renameSync, rmSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { spawn, spawnSync } from "node:child_process";
 import { arch, platform } from "node:os";
 import { dirname, resolve } from "node:path";
