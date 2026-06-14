@@ -195,6 +195,29 @@ button, input, textarea, select { font: inherit; }
 .profile-tags.large span { padding: 8px 11px; font-size: 10px; }
 .full-profile-copy > .button { margin-top: 20px; }
 
+.centered-panel { max-width: 720px; margin: 70px auto; }
+.compliment-composer, .compliment-sent { padding: 45px; border: 1px solid var(--line); border-radius: 25px; background: var(--paper); box-shadow: var(--shadow); }
+.compliment-composer h2, .compliment-sent h2 { margin: 0; font-family: var(--font-display),serif; font-size: 48px; font-weight: 600; line-height: 1; }
+.compliment-composer > p:not(.eyebrow), .compliment-sent p { color: var(--muted); font-size: 12px; line-height: 1.7; }
+.compliment-composer textarea { width: 100%; margin-top: 15px; border: 1px solid var(--line); border-radius: 15px; background: var(--parchment); padding: 16px; color: var(--cocoa); outline: none; resize: vertical; }
+.compliment-composer textarea:focus { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(167,114,88,.1); }
+.compliment-composer > div { display: flex; justify-content: space-between; align-items: center; margin-top: 13px; }
+.compliment-composer > div span { color: var(--muted); font-size: 9px; }
+.inbox-section, .sent-section { max-width: 900px; margin: 55px auto; }
+.inbox-section > h2, .sent-section > h2 { margin-bottom: 18px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.compliment-list, .sent-list { display: grid; gap: 12px; }
+.compliment-list article, .sent-list article { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+.compliment-list blockquote, .sent-list blockquote { margin: 5px 0 20px; font-family: var(--font-display),serif; font-size: 25px; font-style: italic; line-height: 1.3; }
+.compliment-list article > div { display: flex; align-items: center; gap: 15px; }
+.compliment-list article > div button:not(.button) { border: 0; background: transparent; color: var(--muted); font-size: 10px; cursor: pointer; }
+.compliment-list .button { min-height: 41px; }
+.sent-list article { display: grid; grid-template-columns: 130px 1fr auto; align-items: center; gap: 20px; }
+.sent-list p, .sent-list blockquote { margin: 0; }
+.sent-list span { padding: 6px 9px; border-radius: 999px; background: var(--oat); color: var(--clay-dark); font-size: 9px; text-transform: capitalize; }
+.muted-copy { color: var(--muted); font-size: 11px; }
+.kind-empty.small { margin: 30px auto; padding: 35px; }
+.kind-empty.small h2 { font-size: 32px; }
+
 @keyframes float-note { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(-1deg); } }
 @media (max-width: 900px) {
   .header-nav > a:not(.button) { display: none; }
@@ -259,6 +282,10 @@ button, input, textarea, select { font: inherit; }
   .profile-pager span { color: var(--muted); font-size: 9px; }
   .full-profile-photo { min-height: 480px; }
   .full-profile-copy { padding-top: 28px; }
+  .compliment-composer, .compliment-sent { padding: 30px 22px; }
+  .compliment-composer h2 { font-size: 40px; }
+  .compliment-list article > div { align-items: flex-start; flex-direction: column; }
+  .sent-list article { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
